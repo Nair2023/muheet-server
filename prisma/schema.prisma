@@ -1,0 +1,693 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["extendedWhereUnique", "filteredRelationCount", "clientExtensions", "views"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model guest {
+  id         Int       @id @default(autoincrement())
+  name       String
+  guest_id   String    @unique @default(uuid())
+  upload_id  Int?
+  is_deleted Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  upload     upload?   @relation(fields: [upload_id], references: [id])
+  token      token[]
+  device     device[]
+}
+
+model account {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  gender                gender?
+  email                 String?                 @unique
+  mobile                String?                 @unique
+  password              String?
+  google_id             String?                 @unique
+  facebook_id           String?                 @unique
+  twitter_id            String?                 @unique
+  linkedin_id           String?                 @unique
+  github_id             String?                 @unique
+  biometric_id          String?                 @unique
+  apple_id              String?                 @unique
+  is_email_confirmed    Boolean                 @default(false)
+  is_mobile_confirmed   Boolean                 @default(false)
+  is_verified           Boolean                 @default(false)
+  account_type          accountType             @default(user)
+  date_of_birth         DateTime?
+  signed_up             Boolean                 @default(true)
+  is_deleted            Boolean                 @default(false)
+  created_at            DateTime                @default(now())
+  updated_at            DateTime                @default(now()) @updatedAt
+  deleted_at            DateTime?
+  device                device[]
+  token                 token[]
+  notification          notification[]
+  company               company[]
+  client                client[]
+  companyUser           companyUser[]
+  companyClient         companyClient[]
+  note                  note[]
+  label                 label[]
+  trash                 trash?
+  category              category[]
+  archive               archive?
+  collection            collection[]
+  tag                   tag[]
+  reminder              reminder[]
+  setting               setting?
+  sharedNote            sharedNote[]
+  cooperativeNote       cooperativeNote[]
+  cooperativeCollection cooperativeCollection[]
+  sharedCollection      sharedCollection[]
+  meeting               meeting[]
+  meetingAccount        meetingInvitee[]
+  admin                 admin[]
+  user                  user[]
+  deadlineFighter       deadlineFighter[]
+}
+
+model admin {
+  id         Int       @id @default(autoincrement())
+  account_id Int
+  role       adminRole
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+  is_deleted Boolean   @default(false)
+  deleted_at DateTime?
+  account    account?  @relation(fields: [account_id], references: [id])
+}
+
+model user {
+  id         Int       @id @default(autoincrement())
+  account_id Int
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+  is_deleted Boolean   @default(false)
+  deleted_at DateTime?
+  account    account?  @relation(fields: [account_id], references: [id])
+}
+
+model company {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @unique
+  creator_id            Int
+  is_deleted            Boolean                 @default(false)
+  created_at            DateTime                @default(now())
+  updated_at            DateTime                @default(now()) @updatedAt
+  deleted_at            DateTime?
+  creator               account                 @relation(fields: [creator_id], references: [id])
+  client                client[]
+  companyUser           companyUser[]
+  companyClient         companyClient[]
+  category              category[]
+  trash                 trash?
+  archive               archive?
+  collection            collection[]
+  tag                   tag[]
+  label                 label[]
+  reminder              reminder[]
+  setting               setting?
+  sharedNote            sharedNote[]
+  cooperativeNote       cooperativeNote[]
+  cooperativeCollection cooperativeCollection[]
+  sharedCollection      sharedCollection[]
+  meeting               meeting[]
+}
+
+model companyUser {
+  id           Int                @id @default(autoincrement())
+  account_id   Int
+  company_id   Int
+  account_type accountCompanyType
+  is_deleted   Boolean            @default(false)
+  created_at   DateTime           @default(now())
+  updated_at   DateTime           @default(now()) @updatedAt
+  deleted_at   DateTime?
+  company      company?           @relation(fields: [company_id], references: [id])
+  account      account?           @relation(fields: [account_id], references: [id])
+}
+
+model companyClient {
+  id         Int       @id @default(autoincrement())
+  account_id Int
+  company_id Int
+  deleted_at DateTime?
+  is_deleted Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  company    company?  @relation(fields: [company_id], references: [id])
+  account    account?  @relation(fields: [account_id], references: [id])
+}
+
+model client {
+  id              Int               @id @default(autoincrement())
+  account_id      Int
+  company_id      Int
+  is_deleted      Boolean           @default(false)
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @default(now()) @updatedAt
+  deleted_at      DateTime?
+  company         company?          @relation(fields: [company_id], references: [id])
+  account         account?          @relation(fields: [account_id], references: [id])
+  deadlineFighter deadlineFighter[]
+}
+
+model note {
+  id              Int               @id @default(autoincrement())
+  title           String?
+  body            String
+  account_id      Int
+  collection_id   Int?
+  cooperative     Boolean           @default(false)
+  shared          Boolean           @default(false)
+  checked         Boolean           @default(false)
+  checkable       Boolean           @default(false)
+  is_deleted      Boolean           @default(false)
+  is_archived     Boolean           @default(false)
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @default(now()) @updatedAt
+  deleted_at      DateTime?
+  account         account?          @relation(fields: [account_id], references: [id])
+  noteLabel       noteLabel[]
+  noteUpload      noteUpload[]
+  trashNote       trashNote[]
+  categoryNote    categoryNote[]
+  collection      collection?       @relation(fields: [collection_id], references: [id])
+  noteCollection  noteCollection[]
+  reminder        reminder[]
+  sharedNote      sharedNote[]
+  cooperativeNote cooperativeNote[]
+  deadline        deadline[]
+}
+
+model meeting {
+  id                Int              @id @default(autoincrement())
+  title             String
+  body              String
+  time              DateTime
+  place             String?
+  calendar_reminder Boolean          @default(false)
+  account_id        Int?
+  company_id        Int?
+  invite_people     Boolean          @default(false)
+  is_deleted        Boolean          @default(false)
+  created_at        DateTime         @default(now())
+  updated_at        DateTime         @default(now()) @updatedAt
+  deleted_at        DateTime?
+  account           account?         @relation(fields: [account_id], references: [id])
+  company           company?         @relation(fields: [company_id], references: [id])
+  invitees          meetingInvitee[]
+}
+
+model meetingInvitee {
+  id         Int       @id @default(autoincrement())
+  account_id Int?
+  company_id Int?
+  meeting_id Int
+  is_deleted Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  account    account?  @relation(fields: [account_id], references: [id])
+  meeting    meeting?  @relation(fields: [meeting_id], references: [id])
+}
+
+model sharedNote {
+  id         Int       @id @default(autoincrement())
+  note_id    Int
+  account_id Int?
+  company_id Int?
+  is_deleted Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  note       note      @relation(fields: [note_id], references: [id])
+  account    account?  @relation(fields: [account_id], references: [id])
+  company    company?  @relation(fields: [company_id], references: [id])
+}
+
+model cooperativeNote {
+  id         Int       @id @default(autoincrement())
+  note_id    Int
+  account_id Int?
+  company_id Int?
+  is_deleted Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  note       note      @relation(fields: [note_id], references: [id])
+  account    account?  @relation(fields: [account_id], references: [id])
+  company    company?  @relation(fields: [company_id], references: [id])
+}
+
+model category {
+  id            Int             @id @default(autoincrement())
+  name          String
+  account_id    Int?
+  company_id    Int?
+  is_deleted    Boolean         @default(false)
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @default(now()) @updatedAt
+  deleted_at    DateTime?
+  account       account?        @relation(fields: [account_id], references: [id])
+  company       company?        @relation(fields: [company_id], references: [id])
+  categoryNote  categoryNote[]
+  categoryLabel categoryLabel[]
+  deadline      deadline[]
+}
+
+model cooperativeCollection {
+  id            Int        @id @default(autoincrement())
+  collection_id Int
+  account_id    Int?
+  company_id    Int?
+  is_deleted    Boolean    @default(false)
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @default(now()) @updatedAt
+  deleted_at    DateTime?
+  collection    collection @relation(fields: [collection_id], references: [id])
+  account       account?   @relation(fields: [account_id], references: [id])
+  company       company?   @relation(fields: [company_id], references: [id])
+}
+
+model sharedCollection {
+  id            Int        @id @default(autoincrement())
+  collection_id Int
+  account_id    Int?
+  company_id    Int?
+  is_deleted    Boolean    @default(false)
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @default(now()) @updatedAt
+  deleted_at    DateTime?
+  collection    collection @relation(fields: [collection_id], references: [id])
+  account       account?   @relation(fields: [account_id], references: [id])
+  company       company?   @relation(fields: [company_id], references: [id])
+}
+
+model collection {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  account_id            Int?
+  company_id            Int?
+  cooperative           Boolean                 @default(false)
+  shared                Boolean                 @default(false)
+  is_deleted            Boolean                 @default(false)
+  created_at            DateTime                @default(now())
+  updated_at            DateTime                @default(now()) @updatedAt
+  deleted_at            DateTime?
+  account               account?                @relation(fields: [account_id], references: [id])
+  company               company?                @relation(fields: [company_id], references: [id])
+  note                  note[]
+  noteCollection        noteCollection[]
+  tag                   tag[]
+  tagCollection         tagCollection[]
+  cooperativeCollection cooperativeCollection[]
+  sharedCollection      sharedCollection[]
+  deadline              deadline[]
+}
+
+model noteCollection {
+  id            Int        @id @default(autoincrement())
+  note_id       Int
+  collection_id Int
+  is_deleted    Boolean    @default(false)
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @default(now()) @updatedAt
+  deleted_at    DateTime?
+  note          note       @relation(fields: [note_id], references: [id])
+  collection    collection @relation(fields: [collection_id], references: [id])
+}
+
+model tag {
+  id            Int             @id @default(autoincrement())
+  name          String
+  account_id    Int?
+  company_id    Int?
+  collection_id Int?
+  is_deleted    Boolean         @default(false)
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @default(now()) @updatedAt
+  deleted_at    DateTime?
+  account       account?        @relation(fields: [account_id], references: [id])
+  company       company?        @relation(fields: [company_id], references: [id])
+  collection    collection?     @relation(fields: [collection_id], references: [id])
+  tagCollection tagCollection[]
+}
+
+model tagCollection {
+  id            Int        @id @default(autoincrement())
+  tag_id        Int
+  collection_id Int
+  is_deleted    Boolean    @default(false)
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @default(now()) @updatedAt
+  deleted_at    DateTime?
+  tag           tag        @relation(fields: [tag_id], references: [id])
+  collection    collection @relation(fields: [collection_id], references: [id])
+}
+
+model categoryNote {
+  id          Int       @id @default(autoincrement())
+  note_id     Int?
+  category_id Int?
+  is_deleted  Boolean   @default(false)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now()) @updatedAt
+  deleted_at  DateTime?
+  note        note?     @relation(fields: [note_id], references: [id])
+  category    category? @relation(fields: [category_id], references: [id])
+}
+
+model categoryLabel {
+  id          Int       @id @default(autoincrement())
+  label_id    Int?
+  category_id Int?
+  is_deleted  Boolean   @default(false)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now()) @updatedAt
+  deleted_at  DateTime?
+  label       label?    @relation(fields: [label_id], references: [id])
+  category    category? @relation(fields: [category_id], references: [id])
+}
+
+model label {
+  id            Int             @id @default(autoincrement())
+  name          String
+  account_id    Int?
+  company_id    Int?
+  is_deleted    Boolean         @default(false)
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @default(now()) @updatedAt
+  deleted_at    DateTime?
+  account       account?        @relation(fields: [account_id], references: [id])
+  company       company?        @relation(fields: [company_id], references: [id])
+  noteLabel     noteLabel[]
+  categoryLabel categoryLabel[]
+  deadline      deadline[]
+}
+
+model noteUpload {
+  id         Int       @id @default(autoincrement())
+  note_id    Int?
+  upload_id  Int?
+  is_deleted Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  note       note?     @relation(fields: [note_id], references: [id])
+  upload     upload?   @relation(fields: [upload_id], references: [id])
+}
+
+model noteLabel {
+  id         Int       @id @default(autoincrement())
+  note_id    Int?
+  label_id   Int?
+  is_deleted Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  note       note?     @relation(fields: [note_id], references: [id])
+  label      label?    @relation(fields: [label_id], references: [id])
+}
+
+model trash {
+  id           Int            @id @default(autoincrement())
+  is_empty     Boolean        @default(true)
+  account_id   Int?           @unique
+  company_id   Int?           @unique
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @default(now()) @updatedAt
+  account      account?       @relation(fields: [account_id], references: [id])
+  company      company?       @relation(fields: [company_id], references: [id])
+  trashUploads trashUploads[]
+  trashNote    trashNote[]
+}
+
+model archive {
+  id         Int      @id @default(autoincrement())
+  account_id Int?     @unique
+  company_id Int?     @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+  account    account? @relation(fields: [account_id], references: [id])
+  company    company? @relation(fields: [company_id], references: [id])
+}
+
+model trashUploads {
+  id         Int       @id @default(autoincrement())
+  trash_id   Int?
+  upload_id  Int?
+  is_deleted Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  trash      trash?    @relation(fields: [trash_id], references: [id])
+  upload     upload?   @relation(fields: [upload_id], references: [id])
+}
+
+model trashNote {
+  id         Int       @id @default(autoincrement())
+  trash_id   Int?
+  note_id    Int?
+  is_deleted Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  trash      trash?    @relation(fields: [trash_id], references: [id])
+  note       note?     @relation(fields: [note_id], references: [id])
+}
+
+model device {
+  id                    Int       @id @default(autoincrement())
+  account_id            Int?
+  guest_id              Int?
+  language              language
+  os                    os
+  ip                    String?
+  fcm_token             String?
+  biometric_public_key  String?
+  notifications_enabled Boolean   @default(true)
+  is_deleted            Boolean   @default(false)
+  created_at            DateTime  @default(now())
+  updated_at            DateTime  @default(now()) @updatedAt
+  deleted_at            DateTime?
+  account               account?  @relation(fields: [account_id], references: [id])
+  guest                 guest?    @relation(fields: [guest_id], references: [id])
+}
+
+model upload {
+  id                  Int                   @id @default(autoincrement())
+  file_name           String
+  file_type           String
+  file_size           Int
+  aws_key             String
+  base_type           uploadBaseType
+  is_delete           Boolean               @default(false)
+  created_at          DateTime              @default(now())
+  updated_at          DateTime              @default(now()) @updatedAt
+  deleted_at          DateTime?
+  guests              guest[]
+  systemConfigUploads systemConfigUploads[]
+  noteUpload          noteUpload[]
+  trashUploads        trashUploads[]
+}
+
+model token {
+  id               Int       @id @default(autoincrement())
+  token_data       String?
+  account_id       Int?
+  guest_id         Int?
+  related_token_id Int?
+  related_token    token?    @relation("token", fields: [related_token_id], references: [id])
+  tokenType        tokenType
+  expiry_date      DateTime
+  is_deleted       Boolean   @default(false)
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @default(now()) @updatedAt
+  deleted_at       DateTime?
+  account          account?  @relation(fields: [account_id], references: [id])
+  guest            guest?    @relation(fields: [guest_id], references: [id])
+  tokens           token[]   @relation("token")
+}
+
+model systmeConfig {
+  id                  Int                   @id @default(autoincrement())
+  country_id          Int?
+  is_deleted          Boolean               @default(false)
+  created_at          DateTime              @default(now())
+  updated_at          DateTime              @default(now()) @updatedAt
+  deleted_at          DateTime?
+  systemConfigUploads systemConfigUploads[]
+  country             country?              @relation(fields: [country_id], references: [id])
+}
+
+model systemConfigUploads {
+  id         Int           @id @default(autoincrement())
+  upload_id  Int?
+  config_id  Int?
+  is_deleted Boolean       @default(false)
+  created_at DateTime      @default(now())
+  updated_at DateTime      @default(now()) @updatedAt
+  deleted_at DateTime?
+  upload     upload?       @relation(fields: [upload_id], references: [id])
+  config     systmeConfig? @relation(fields: [config_id], references: [id])
+}
+
+model country {
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  is_deleted   Boolean        @default(false)
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @default(now()) @updatedAt
+  deleted_at   DateTime?
+  systmeConfig systmeConfig[]
+  city         city[]
+}
+
+model city {
+  id         Int       @id @default(autoincrement())
+  name       String
+  country_id Int?
+  is_deleted Boolean   @default(false)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  country    country?  @relation(fields: [country_id], references: [id])
+}
+
+model notification {
+  id                 Int       @id @default(autoincrement())
+  title              String
+  body               String
+  params             Json?
+  account_id         Int?
+  company_id         Int?
+  translation_params Json?     @default("{}")
+  is_read            Boolean   @default(false)
+  is_deleted         Boolean   @default(false)
+  created_at         DateTime  @default(now())
+  updated_at         DateTime  @default(now()) @updatedAt
+  deleted_at         DateTime?
+  account            account?  @relation(fields: [account_id], references: [id])
+}
+
+model reminder {
+  id          Int       @id @default(autoincrement())
+  note_id     Int
+  account_id  Int?
+  company_id  Int?
+  time        DateTime
+  repeat      Boolean   @default(false)
+  place       String?
+  is_deleted  Boolean   @default(false)
+  is_archived Boolean   @default(false)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now()) @updatedAt
+  deleted_at  DateTime?
+  account     account?  @relation(fields: [account_id], references: [id])
+  note        note      @relation(fields: [note_id], references: [id])
+  company     company?  @relation(fields: [company_id], references: [id])
+}
+
+model setting {
+  id         Int      @id @default(autoincrement())
+  account_id Int?     @unique
+  company_id Int?     @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+  account    account? @relation(fields: [account_id], references: [id])
+  company    company? @relation(fields: [company_id], references: [id])
+}
+
+model deadline {
+  id              Int               @id @default(autoincrement())
+  note_id         Int?
+  collection_id   Int?
+  category_id     Int?
+  label_id        Int?
+  tag_id          Int?
+  time            DateTime
+  is_deleted      Boolean           @default(false)
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @default(now()) @updatedAt
+  deleted_at      DateTime?
+  note            note?             @relation(fields: [note_id], references: [id])
+  collection      collection?       @relation(fields: [collection_id], references: [id])
+  category        category?         @relation(fields: [category_id], references: [id])
+  label           label?            @relation(fields: [label_id], references: [id])
+  deadlineFighter deadlineFighter[]
+}
+
+model deadlineFighter {
+  id          Int       @id @default(autoincrement())
+  deadline_id Int?
+  account_id  Int?
+  client_id   Int?
+  company_id  Int?
+  is_deleted  Boolean   @default(false)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now()) @updatedAt
+  deleted_at  DateTime?
+  deadline    deadline? @relation(fields: [deadline_id], references: [id])
+  account     account?  @relation(fields: [account_id], references: [id])
+  client      client?   @relation(fields: [client_id], references: [id])
+}
+
+enum tokenType {
+  access
+  refresh
+  otp
+  temporary_access
+  biometric
+}
+
+enum os {
+  ios
+  android
+  browser
+}
+
+enum language {
+  ar
+  en
+}
+
+enum accountType {
+  user
+  admin
+}
+
+enum uploadBaseType {
+  image
+  video
+  audio
+  document
+}
+
+enum accountCompanyType {
+  creator
+  admin
+  supervisor
+  user
+}
+
+enum gender {
+  male
+  female
+  other
+}
+
+enum adminRole {
+  admin
+  super_admin
+}

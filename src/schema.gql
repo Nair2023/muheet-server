@@ -1,0 +1,278 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Tokens {
+  access_token: String!
+  refresh_token: String!
+}
+
+type TokenReturn {
+  tokens: Tokens
+  result: Boolean!
+}
+
+type TokenReturnWithGuestId {
+  tokens: Tokens
+  result: Boolean!
+  guest_id: String!
+  id: Float!
+}
+
+type Account {
+  gender: Gender
+  account_type: AccountType!
+  tokens: Tokens
+  id: Float!
+  name: String!
+  email: String
+  mobile: String
+  password: String
+  google_id: String
+  facebook_id: String
+  twitter_id: String
+  linkedin_id: String
+  github_id: String
+  biometric_id: String
+  apple_id: String
+  date_of_birth: DateTime
+  signed_up: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+  is_deleted: Boolean!
+  deleted_at: DateTime
+}
+
+enum Gender {
+  male
+  female
+  other
+}
+
+enum AccountType {
+  user
+  admin
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Guest {
+  id: Float!
+  name: String!
+  guest_id: String!
+  upload_id: Float
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+  is_deleted: Boolean!
+}
+
+type Note {
+  id: Float!
+  title: String
+  body: String!
+  account_id: Float!
+  collection_id: Float
+  checked: Boolean
+  checkable: Boolean!
+  cooperative: Boolean
+  shared: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+  is_deleted: Boolean!
+  is_archived: Boolean!
+}
+
+type Device {
+  id: Float!
+  account_id: Float
+  guest_id: Float
+  ip: String
+  fcm_token: String
+  biometric_public_key: String
+  notifications_enabled: Boolean
+  os: OS!
+  language: Language!
+  created_at: DateTime!
+  updated_at: DateTime!
+  is_deleted: Boolean!
+  deleted_at: DateTime
+}
+
+enum OS {
+  ios
+  android
+  browser
+}
+
+enum Language {
+  ar
+  en
+}
+
+type Query {
+  helloWorld: String!
+  accounts(page: Float!, pageSize: Float!, filter: FilterAccountInput, search: String): [Account!]!
+  account(id: Int!): Account!
+  guests: [Guest!]!
+  guest(id: Int!): Guest!
+  notes: [Note!]!
+  note(id: Int!): Note!
+  devices: [Device!]!
+  device(id: Int!): Device!
+}
+
+input FilterAccountInput {
+  id: Float
+  name: String
+  gender: Gender
+  email: String
+  mobile: String
+  password: String
+  google_id: String
+  facebook_id: String
+  twitter_id: String
+  linkedin_id: String
+  github_id: String
+  biometric_id: String
+  apple_id: String
+  account_type: AccountType
+  date_of_birth: DateTime
+  signed_up: Boolean
+  admin_role: AdminRoles
+}
+
+enum AdminRoles {
+  super_admin
+  admin
+}
+
+type Mutation {
+  createAccount(createAccountInput: CreateAccountInput!): Account!
+  login(loginInput: LoginDto!): Account!
+  updateAccount(updateAccountInput: UpdateAccountInput!): Account!
+  removeAccount(id: Int!): Account!
+  createGuest(createGuestInput: CreateGuestInput!): TokenReturnWithGuestId!
+  updateGuest(updateGuestInput: UpdateGuestInput!): Guest!
+  removeGuest(id: Int!): Guest!
+  guestLogin(guest_id: String!): TokenReturn!
+  logoutGuest: Boolean!
+  createNote(createNoteInput: CreateNoteInput!): Note!
+  updateNote(updateNoteInput: UpdateNoteInput!): Note!
+  removeNote(id: Int!): Note!
+  createDevice(createDeviceInput: CreateDeviceInput!): Device!
+  updateDevice(updateDeviceInput: UpdateDeviceInput!): Device!
+  removeDevice(id: Int!): Device!
+}
+
+input CreateAccountInput {
+  name: String!
+  gender: Gender
+  email: String
+  mobile: String
+  password: String
+  google_id: String
+  facebook_id: String
+  twitter_id: String
+  linkedin_id: String
+  github_id: String
+  biometric_id: String
+  apple_id: String
+  account_type: AccountType
+  date_of_birth: DateTime
+  signed_up: Boolean
+  admin_role: AdminRoles
+}
+
+input LoginDto {
+  facebook_id: String
+  google_id: String
+  apple_id: String
+  mobile: String
+  email: String
+  country: String
+  password: String
+  biometric_id: String
+  biometrics_login: Boolean
+}
+
+input UpdateAccountInput {
+  name: String
+  gender: Gender
+  email: String
+  mobile: String
+  password: String
+  google_id: String
+  facebook_id: String
+  twitter_id: String
+  linkedin_id: String
+  github_id: String
+  biometric_id: String
+  apple_id: String
+  account_type: AccountType
+  date_of_birth: DateTime
+  signed_up: Boolean
+  admin_role: AdminRoles
+  id: Float!
+}
+
+input CreateGuestInput {
+  name: String!
+  upload_id: Float
+}
+
+input UpdateGuestInput {
+  name: String
+  upload_id: Float
+  id: Float!
+}
+
+input CreateNoteInput {
+  title: String
+  body: String!
+  account_id: Float!
+  collection_id: Float
+  checked: Boolean
+  cooperative: Boolean
+  shared: Boolean
+  checkable: Boolean
+}
+
+input UpdateNoteInput {
+  title: String
+  body: String
+  account_id: Float
+  collection_id: Float
+  checked: Boolean
+  cooperative: Boolean
+  shared: Boolean
+  checkable: Boolean
+  id: Float!
+}
+
+input CreateDeviceInput {
+  account_id: Float
+  guest_id: Float
+  ip: String
+  fcm_token: String
+  biometric_public_key: String
+  notifications_enabled: Boolean
+  os: OS!
+  language: Language!
+}
+
+input UpdateDeviceInput {
+  account_id: Float
+  guest_id: Float
+  ip: String
+  fcm_token: String
+  biometric_public_key: String
+  notifications_enabled: Boolean
+  os: OS
+  language: Language
+  id: Float!
+}
