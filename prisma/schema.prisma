@@ -32,6 +32,7 @@ model account {
   email                 String?                 @unique
   mobile                String?                 @unique
   password              String?
+  username              String?
   google_id             String?                 @unique
   facebook_id           String?                 @unique
   twitter_id            String?                 @unique
