@@ -521,7 +521,7 @@ model token {
   tokens           token[]   @relation("token")
 }
 
-model systmeConfig {
+model systemConfig {
   id                  Int                   @id @default(autoincrement())
   country_id          Int?
   is_deleted          Boolean               @default(false)
@@ -533,15 +533,15 @@ model systmeConfig {
 }
 
 model systemConfigUploads {
-  id         Int           @id @default(autoincrement())
-  upload_id  Int?
-  config_id  Int?
-  is_deleted Boolean       @default(false)
-  created_at DateTime      @default(now())
-  updated_at DateTime      @default(now()) @updatedAt
-  deleted_at DateTime?
-  upload     upload?       @relation(fields: [upload_id], references: [id])
-  config     systmeConfig? @relation(fields: [config_id], references: [id])
+  id           Int           @id @default(autoincrement())
+  upload_id    Int?
+  config_id    Int?
+  is_deleted   Boolean       @default(false)
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @default(now()) @updatedAt
+  deleted_at   DateTime?
+  upload       upload?       @relation(fields: [upload_id], references: [id])
+  systemConfig systemConfig? @relation(fields: [config_id], references: [id])
 }
 
 model country {
@@ -551,7 +551,7 @@ model country {
   created_at   DateTime       @default(now())
   updated_at   DateTime       @default(now()) @updatedAt
   deleted_at   DateTime?
-  systmeConfig systmeConfig[]
+  systmeConfig systemConfig[]
   city         city[]
 }
 
