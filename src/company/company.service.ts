@@ -1,42 +1,68 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { CreateDeviceInput } from './dto/create-device.input';
-import { UpdateDeviceInput } from './dto/update-device.input';
+import { CreateCompanyInput } from './dto/create-company.input';
+import { UpdateCompanyInput } from './dto/update-company.input';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
-export class DeviceService {
+export class CompanyService {
   private logger;
-  constructor() {
-    this.logger = new Logger('Device Service');
-  }
 
+  constructor() {
+    this.logger = new Logger('Company Service');
+  }
   async create(
-    createDeviceInput: CreateDeviceInput,
+    createCompanyInput: CreateCompanyInput,
     prisma: Prisma.TransactionClient,
   ) {
     try {
-      const device = await prisma.device.create({
+      const company = await prisma.company.create({
         data: {
-          ...createDeviceInput,
+          ...createCompanyInput,
+        },
+        include: {
+          creator: true,
         },
       });
 
-      return device;
+      return company;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(error);
     }
   }
 
-  async findAll(prisma: Prisma.TransactionClient) {
+  async findAll(
+    prisma: Prisma.TransactionClient,
+    page: number,
+    pageSize: number,
+    filter?: Prisma.accountWhereInput,
+    search?: string,
+  ) {
     try {
-      const device = await prisma.device.findMany({
+      const where: Prisma.accountWhereInput = { ...filter };
+
+      if (search) {
+        search = JSON.parse(search);
+
+        Object.keys(search).forEach((key) => {
+          where[key] = { contains: search[key], mode: 'insensitive' };
+        });
+      }
+
+      const company = await prisma.company.findMany({
+        where,
+        ...(page && {
+          ...(page && {
+            skip: Number(pageSize) * (page - 1),
+            take: Number(pageSize),
+          }),
+        }),
         orderBy: {
           id: 'desc',
         },
       });
 
-      return device;
+      return company;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(error);
@@ -45,13 +71,13 @@ export class DeviceService {
 
   async findOne(id: number, prisma: Prisma.TransactionClient) {
     try {
-      const device = await prisma.device.findFirst({
+      const company = await prisma.company.findUnique({
         where: {
           id,
         },
       });
 
-      return device;
+      return company;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(error);
@@ -60,20 +86,20 @@ export class DeviceService {
 
   async update(
     id: number,
-    updateDeviceInput: UpdateDeviceInput,
+    updateCompanyInput: UpdateCompanyInput,
     prisma: Prisma.TransactionClient,
   ) {
     try {
-      const device = await prisma.device.update({
+      const company = await prisma.company.update({
         where: {
           id,
         },
         data: {
-          ...updateDeviceInput,
+          ...updateCompanyInput,
         },
       });
 
-      return device;
+      return company;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(error);
@@ -82,7 +108,7 @@ export class DeviceService {
 
   async remove(id: number, prisma: Prisma.TransactionClient) {
     try {
-      const device = await prisma.device.update({
+      const company = await prisma.company.update({
         where: {
           id,
         },
@@ -92,7 +118,7 @@ export class DeviceService {
         },
       });
 
-      return device;
+      return company;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(error);
