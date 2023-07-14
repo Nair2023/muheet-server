@@ -19,6 +19,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { MailerConfig } from './configurations/mailer.configs';
 import { LoggerInterceptor } from './utils/interceptors/logger.interceptor';
 import { DeviceModule } from './device/device.module';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { DeviceModule } from './device/device.module';
     GuestModule,
     NoteModule,
     DeviceModule,
+    CompanyModule,
   ],
   controllers: [AppController],
   providers: [

@@ -114,6 +114,16 @@ enum Language {
   en
 }
 
+type Company {
+  id: Float!
+  name: String!
+  creator_id: Float!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
 type Query {
   helloWorld: String!
   accounts(page: Float!, pageSize: Float!, filter: FilterAccountInput, search: String): [Account!]!
@@ -124,6 +134,8 @@ type Query {
   note(id: Int!): Note!
   devices: [Device!]!
   device(id: Int!): Device!
+  companies(page: Float!, pageSize: Float!, filter: FilterCompanyInput, search: String): [Company!]!
+  company(id: Int!): Company!
 }
 
 input FilterAccountInput {
@@ -151,6 +163,16 @@ enum AdminRoles {
   admin
 }
 
+input FilterCompanyInput {
+  id: Float
+  name: String
+  creator_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
 type Mutation {
   createAccount(createAccountInput: CreateAccountInput!): Account!
   login(loginInput: LoginDto!): Account!
@@ -167,6 +189,9 @@ type Mutation {
   createDevice(createDeviceInput: CreateDeviceInput!): Device!
   updateDevice(updateDeviceInput: UpdateDeviceInput!): Device!
   removeDevice(id: Int!): Device!
+  createCompany(createCompanyInput: CreateCompanyInput!): Company!
+  updateCompany(updateCompanyInput: UpdateCompanyInput!): Company!
+  deleteCompany(id: Int!): Company!
 }
 
 input CreateAccountInput {
@@ -274,5 +299,14 @@ input UpdateDeviceInput {
   notifications_enabled: Boolean
   os: OS
   language: Language
+  id: Float!
+}
+
+input CreateCompanyInput {
+  name: String!
+}
+
+input UpdateCompanyInput {
+  name: String
   id: Float!
 }
