@@ -14,7 +14,7 @@ export class Token {
   related_token_id?: number;
 
   @Field(() => TokenTypeEnum)
-  tokenType: TokenTypeEnum;
+  token_type: TokenTypeEnum;
 
   expiry_date: Date;
 
@@ -36,7 +36,7 @@ export class TokenFilter {
   related_token_id?: number;
 
   @Field(() => TokenTypeEnum, { nullable: true })
-  tokenType?: TokenTypeEnum;
+  token_type?: TokenTypeEnum;
 
   expiry_date?: Date;
 
