@@ -114,7 +114,7 @@ export class TokenService {
           if (!token?.account_id) return false;
 
           this.logger.log(
-            `${TokenTypeEnum[token.tokenType]} Token has been validated`,
+            `${TokenTypeEnum[token.token_type]} Token has been validated`,
           );
 
           const account = (await this.accountService.findOne(
@@ -217,7 +217,7 @@ export class TokenService {
         {
           account_id,
           expiry_date: dayjs().add(24, 'h').toDate(),
-          tokenType: TokenTypeEnum.access,
+          token_type: TokenTypeEnum.access,
           guest_id,
         },
         prisma,
@@ -228,7 +228,7 @@ export class TokenService {
           account_id,
           related_token_id: accessToken.id,
           expiry_date: dayjs().add(30, 'd').toDate(),
-          tokenType: TokenTypeEnum.refresh,
+          token_type: TokenTypeEnum.refresh,
           guest_id,
         },
         prisma,

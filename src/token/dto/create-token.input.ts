@@ -12,7 +12,7 @@ export class CreateTokenInput {
   related_token_id?: number;
 
   @Field(() => TokenTypeEnum)
-  tokenType: TokenTypeEnum;
+  token_type: TokenTypeEnum;
 
   expiry_date: Date;
 
