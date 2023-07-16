@@ -23,6 +23,7 @@ import { CompanyModule } from './company/company.module';
 import { TagModule } from './tag/tag.module';
 import { LabelModule } from './label/label.module';
 import { TrashModule } from './trash/trash.module';
+import { CountryModule } from './country/country.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { TrashModule } from './trash/trash.module';
     TagModule,
     LabelModule,
     TrashModule,
+    CountryModule,
   ],
   controllers: [AppController],
   providers: [
