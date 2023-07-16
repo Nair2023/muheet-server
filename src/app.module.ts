@@ -25,6 +25,7 @@ import { LabelModule } from './label/label.module';
 import { TrashModule } from './trash/trash.module';
 import { CountryModule } from './country/country.module';
 import { CityModule } from './city/city.module';
+import { SettingModule } from './setting/setting.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { CityModule } from './city/city.module';
     TrashModule,
     CountryModule,
     CityModule,
+    SettingModule,
   ],
   controllers: [AppController],
   providers: [
