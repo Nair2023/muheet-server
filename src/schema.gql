@@ -128,11 +128,11 @@ type Query {
   helloWorld: String!
   accounts(page: Float!, pageSize: Float!, filter: FilterAccountInput, search: String): [Account!]!
   account(id: Int!): Account!
-  guests: [Guest!]!
+  guests(page: Float!, pageSize: Float!, filter: FilterGuestInput, search: String): [Guest!]!
   guest(id: Int!): Guest!
-  notes: [Note!]!
+  notes(page: Float!, pageSize: Float!, filter: FilterNoteInput, search: String): [Note!]!
   note(id: Int!): Note!
-  devices: [Device!]!
+  devices(page: Float!, pageSize: Float!, filter: FilterDeviceInput, search: String): [Device!]!
   device(id: Int!): Device!
   companies(page: Float!, pageSize: Float!, filter: FilterCompanyInput, search: String): [Company!]!
   company(id: Int!): Company!
@@ -161,6 +161,36 @@ input FilterAccountInput {
 enum AdminRoles {
   super_admin
   admin
+}
+
+input FilterGuestInput {
+  id: Float
+  name: String
+  upload_id: Float
+}
+
+input FilterNoteInput {
+  id: Float
+  title: String
+  body: String
+  account_id: Float
+  collection_id: Float
+  checked: Boolean
+  cooperative: Boolean
+  shared: Boolean
+  checkable: Boolean
+}
+
+input FilterDeviceInput {
+  id: Float
+  account_id: Float
+  guest_id: Float
+  ip: String
+  fcm_token: String
+  biometric_public_key: String
+  notifications_enabled: Boolean
+  os: OS
+  language: Language
 }
 
 input FilterCompanyInput {

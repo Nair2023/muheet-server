@@ -35,11 +35,11 @@ export class CompanyService {
     prisma: Prisma.TransactionClient,
     page: number,
     pageSize: number,
-    filter?: Prisma.accountWhereInput,
+    filter?: Prisma.companyWhereInput,
     search?: string,
   ) {
     try {
-      const where: Prisma.accountWhereInput = { ...filter };
+      const where: Prisma.companyWhereInput = { ...filter };
 
       if (search) {
         search = JSON.parse(search);

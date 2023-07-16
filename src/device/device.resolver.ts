@@ -1,7 +1,10 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { DeviceService } from './device.service';
 import { Device } from './entities/device.entity';
-import { CreateDeviceInput } from './dto/create-device.input';
+import {
+  CreateDeviceInput,
+  FilterDeviceInput,
+} from './dto/create-device.input';
 import { UpdateDeviceInput } from './dto/update-device.input';
 import { PrismaService } from '../prisma.service';
 import { Prisma } from '@prisma/client';
@@ -24,11 +27,22 @@ export class DeviceResolver {
     );
   }
 
-  @Query(() => [Device], { name: 'devices' })
-  async findAll() {
+  @Query(() => [Device])
+  devices(
+    @Args('page') page: number,
+    @Args('pageSize') pageSize: number,
+    @Args('filter', { nullable: true }) filter?: FilterDeviceInput,
+    @Args('search', { nullable: true }) search?: string,
+  ) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.deviceService.findAll(prisma);
+        return this.deviceService.findAll(
+          prisma,
+          page,
+          pageSize,
+          filter,
+          search,
+        );
       },
     );
   }

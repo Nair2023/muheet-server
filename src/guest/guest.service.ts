@@ -45,9 +45,32 @@ export class GuestService {
     }
   }
 
-  async findAll(prisma: Prisma.TransactionClient) {
+  async findAll(
+    prisma: Prisma.TransactionClient,
+    page: number,
+    pageSize: number,
+    filter?: Prisma.guestWhereInput,
+    search?: string,
+  ) {
     try {
+      const where: Prisma.guestWhereInput = { ...filter };
+
+      if (search) {
+        search = JSON.parse(search);
+
+        Object.keys(search).forEach((key) => {
+          where[key] = { contains: search[key], mode: 'insensitive' };
+        });
+      }
+
       const guest = await prisma.guest.findMany({
+        where,
+        ...(page && {
+          ...(page && {
+            skip: Number(pageSize) * (page - 1),
+            take: Number(pageSize),
+          }),
+        }),
         orderBy: {
           id: 'desc',
         },

@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { NoteService } from './note.service';
 import { Note } from './entities/note.entity';
-import { CreateNoteInput } from './dto/create-note.input';
+import { CreateNoteInput, FilterNoteInput } from './dto/create-note.input';
 import { UpdateNoteInput } from './dto/update-note.input';
 import { PrismaService } from '../prisma.service';
 import { Prisma } from '@prisma/client';
@@ -22,11 +22,16 @@ export class NoteResolver {
     );
   }
 
-  @Query(() => [Note], { name: 'notes' })
-  async findAll() {
+  @Query(() => [Note])
+  notes(
+    @Args('page') page: number,
+    @Args('pageSize') pageSize: number,
+    @Args('filter', { nullable: true }) filter?: FilterNoteInput,
+    @Args('search', { nullable: true }) search?: string,
+  ) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.noteService.findAll(prisma);
+        return this.noteService.findAll(prisma, page, pageSize, filter, search);
       },
     );
   }
