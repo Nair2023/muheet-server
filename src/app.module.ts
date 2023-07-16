@@ -21,6 +21,7 @@ import { LoggerInterceptor } from './utils/interceptors/logger.interceptor';
 import { DeviceModule } from './device/device.module';
 import { CompanyModule } from './company/company.module';
 import { TagModule } from './tag/tag.module';
+import { LabelModule } from './label/label.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { TagModule } from './tag/tag.module';
     DeviceModule,
     CompanyModule,
     TagModule,
+    LabelModule,
   ],
   controllers: [AppController],
   providers: [
