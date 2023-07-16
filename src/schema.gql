@@ -124,6 +124,18 @@ type Company {
   deleted_at: DateTime
 }
 
+type Tag {
+  id: Float!
+  name: String!
+  account_id: Float
+  company_id: Float
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+  is_deleted: Boolean!
+  is_archived: Boolean!
+}
+
 type Query {
   helloWorld: String!
   accounts(page: Float!, pageSize: Float!, filter: FilterAccountInput, search: String): [Account!]!
@@ -136,6 +148,8 @@ type Query {
   device(id: Int!): Device!
   companies(page: Float!, pageSize: Float!, filter: FilterCompanyInput, search: String): [Company!]!
   company(id: Int!): Company!
+  tags(page: Float!, pageSize: Float!, filter: FilterTagInput, search: String): [Tag!]!
+  tag(id: Int!): Tag!
 }
 
 input FilterAccountInput {
@@ -203,6 +217,13 @@ input FilterCompanyInput {
   deleted_at: DateTime
 }
 
+input FilterTagInput {
+  id: Float
+  name: String
+  account_id: Float
+  company_id: Float
+}
+
 type Mutation {
   createAccount(createAccountInput: CreateAccountInput!): Account!
   login(loginInput: LoginDto!): Account!
@@ -222,6 +243,9 @@ type Mutation {
   createCompany(createCompanyInput: CreateCompanyInput!): Company!
   updateCompany(updateCompanyInput: UpdateCompanyInput!): Company!
   deleteCompany(id: Int!): Company!
+  createTag(createTagInput: CreateTagInput!): Tag!
+  updateTag(updateTagInput: UpdateTagInput!): Tag!
+  removeTag(id: Int!): Tag!
 }
 
 input CreateAccountInput {
@@ -338,5 +362,18 @@ input CreateCompanyInput {
 
 input UpdateCompanyInput {
   name: String
+  id: Float!
+}
+
+input CreateTagInput {
+  name: String!
+  account_id: Float
+  company_id: Float
+}
+
+input UpdateTagInput {
+  name: String
+  account_id: Float
+  company_id: Float
   id: Float!
 }

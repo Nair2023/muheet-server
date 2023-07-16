@@ -1,4 +1,4 @@
-import { GuestService } from './guest.service';
+import { TagService } from './tag.service';
 import {
   Body,
   Controller,
@@ -18,35 +18,31 @@ import {
 import { Response } from 'express';
 import { Prisma } from '@prisma/client';
 import { filterConverter } from '../utils/helpers/parser.helper';
-import { CreateGuestInput } from './dto/create-guest.input';
-import { UpdateGuestInput } from './dto/update-guest.input';
-import { Guest } from './entities/guest.entity';
+import { CreateTagInput } from './dto/create-tag.input';
+import { UpdateTagInput } from './dto/update-tag.input';
+import { Tag } from './entities/tag.entity';
 import { ApiHeaders } from 'src/utils/decorators/headers.decorator';
 import { PrismaService } from 'src/prisma.service';
-import { CurrentDevice } from 'src/utils/decorators/device.decorator';
 
 @ApiHeaders({ withAuth: false })
-@ApiTags('Guest')
-@Controller('guest')
-export class GuestController {
+@ApiTags('Tag')
+@Controller('tag')
+export class TagController {
   constructor(
-    private readonly guestService: GuestService,
+    private readonly tagService: TagService,
     private readonly prismaService: PrismaService,
   ) {}
 
   @Post()
   @ApiOperation({
-    summary: 'Create - Guest Controller',
-    description: 'create guest',
+    summary: 'Create - Tag Controller',
+    description: 'create tag',
   })
-  @ApiCreatedResponse({ type: Guest })
-  async create(
-    @Body() createGuestInput: CreateGuestInput,
-    @CurrentDevice() device_id: string,
-  ) {
+  @ApiCreatedResponse({ type: Tag })
+  async create(@Body() createTagInput: CreateTagInput) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.guestService.create(createGuestInput, +device_id, prisma);
+        return this.tagService.create(createTagInput, prisma);
       },
       {
         maxWait: 3000,
@@ -57,17 +53,17 @@ export class GuestController {
 
   @Patch('/:id')
   @ApiOperation({
-    summary: 'Update - Guest Controller',
-    description: 'update guest',
+    summary: 'Update - Tag Controller',
+    description: 'update tag',
   })
-  @ApiCreatedResponse({ type: Guest })
+  @ApiCreatedResponse({ type: Tag })
   async update(
     @Param('id') id: number,
-    @Body() updateGuestInput: UpdateGuestInput,
+    @Body() updateTagInput: UpdateTagInput,
   ) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.guestService.update(+id, updateGuestInput, prisma);
+        return this.tagService.update(+id, updateTagInput, prisma);
       },
       {
         maxWait: 3000,
@@ -78,14 +74,14 @@ export class GuestController {
 
   @Patch('/delete/:id')
   @ApiOperation({
-    summary: 'Delete - Guest Controller',
+    summary: 'Delete - Tag Controller',
     description: 'update is_deleted to true ',
   })
-  @ApiCreatedResponse({ type: Guest })
+  @ApiCreatedResponse({ type: Tag })
   async delete(@Param('id') id: number) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.guestService.remove(+id, prisma);
+        return this.tagService.remove(+id, prisma);
       },
       {
         maxWait: 3000,
@@ -96,13 +92,13 @@ export class GuestController {
 
   @Get('/:id')
   @ApiOperation({
-    summary: 'Get By Id - Guest Controller',
-    description: 'find guest by id',
+    summary: 'Get By Id - Tag Controller',
+    description: 'find tag by id',
   })
   async findOne(@Param('id') id: number) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.guestService.findOne(+id, prisma);
+        return this.tagService.findOne(+id, prisma);
       },
       {
         maxWait: 3000,
@@ -113,8 +109,8 @@ export class GuestController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get Multiple Guests - Guest Controller',
-    description: 'Find all guests or find guests by filter and search',
+    summary: 'Get Multiple Tags - Tag Controller',
+    description: 'Find all tags or find tags by filter and search',
   })
   @ApiQuery({ name: 'page', type: Number })
   @ApiQuery({ name: 'pageSize', type: Number })
@@ -125,7 +121,7 @@ export class GuestController {
     example: '{"field":"value"}',
   })
   @ApiQuery({ name: 'filter', type: 'object', required: false })
-  @ApiCreatedResponse({ type: [Guest] })
+  @ApiCreatedResponse({ type: [Tag] })
   async findAll(
     @Res() res: Response,
     @Query()
@@ -134,7 +130,7 @@ export class GuestController {
       pageSize,
       search,
       ...filter
-    }: Prisma.guestWhereInput & {
+    }: Prisma.tagWhereInput & {
       page: number;
       pageSize: number;
       search: string;
@@ -145,7 +141,7 @@ export class GuestController {
     return res.send(
       await this.prismaService.$transaction(
         async (prisma: Prisma.TransactionClient) => {
-          const guests = await this.guestService.findAll(
+          const tags = await this.tagService.findAll(
             prisma,
             page,
             pageSize,
@@ -153,9 +149,9 @@ export class GuestController {
             search,
           );
 
-          res.set('x-total-count', `${guests.length}`);
+          res.set('x-total-count', `${tags.length}`);
 
-          return guests;
+          return tags;
         },
         {
           maxWait: 3000,
