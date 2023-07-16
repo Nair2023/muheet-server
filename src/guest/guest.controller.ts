@@ -113,7 +113,7 @@ export class GuestController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get Multiple Companies - Guest Controller',
+    summary: 'Get Multiple Guests - Guest Controller',
     description: 'Find all guests or find guests by filter and search',
   })
   @ApiQuery({ name: 'page', type: Number })

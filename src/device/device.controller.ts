@@ -109,7 +109,7 @@ export class DeviceController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get Multiple Companies - Device Controller',
+    summary: 'Get Multiple Devices - Device Controller',
     description: 'Find all devices or find devices by filter and search',
   })
   @ApiQuery({ name: 'page', type: Number })

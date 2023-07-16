@@ -109,7 +109,7 @@ export class TagController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get Multiple Companies - Tag Controller',
+    summary: 'Get Multiple Tags - Tag Controller',
     description: 'Find all tags or find tags by filter and search',
   })
   @ApiQuery({ name: 'page', type: Number })

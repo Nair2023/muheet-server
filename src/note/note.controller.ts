@@ -109,7 +109,7 @@ export class NoteController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get Multiple Companies - Note Controller',
+    summary: 'Get Multiple Notes - Note Controller',
     description: 'Find all notes or find notes by filter and search',
   })
   @ApiQuery({ name: 'page', type: Number })
