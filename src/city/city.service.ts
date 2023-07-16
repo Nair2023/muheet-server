@@ -1,27 +1,27 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { CreateCountryInput } from './dto/create-country.input';
-import { UpdateCountryInput } from './dto/update-country.input';
+import { CreateCityInput } from './dto/create-city.input';
+import { UpdateCityInput } from './dto/update-city.input';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
-export class CountryService {
+export class CityService {
   private logger;
   constructor() {
-    this.logger = new Logger('Country Service');
+    this.logger = new Logger('City Service');
   }
 
   async create(
-    createCountryInput: CreateCountryInput,
+    createCityInput: CreateCityInput,
     prisma: Prisma.TransactionClient,
   ) {
     try {
-      const country = await prisma.country.create({
+      const city = await prisma.city.create({
         data: {
-          ...createCountryInput,
+          ...createCityInput,
         },
       });
 
-      return country;
+      return city;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(error);
@@ -32,11 +32,11 @@ export class CountryService {
     prisma: Prisma.TransactionClient,
     page: number,
     pageSize: number,
-    filter?: Prisma.countryWhereInput,
+    filter?: Prisma.cityWhereInput,
     search?: string,
   ) {
     try {
-      const where: Prisma.countryWhereInput = { ...filter };
+      const where: Prisma.cityWhereInput = { ...filter };
 
       if (search) {
         search = JSON.parse(search);
@@ -46,7 +46,7 @@ export class CountryService {
         });
       }
 
-      const country = await prisma.country.findMany({
+      const city = await prisma.city.findMany({
         where,
         ...(page && {
           ...(page && {
@@ -59,7 +59,7 @@ export class CountryService {
         },
       });
 
-      return country;
+      return city;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(error);
@@ -68,13 +68,13 @@ export class CountryService {
 
   async findOne(id: number, prisma: Prisma.TransactionClient) {
     try {
-      const countries = await prisma.country.findFirst({
+      const cities = await prisma.city.findFirst({
         where: {
           id,
         },
       });
 
-      return countries;
+      return cities;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(error);
@@ -83,20 +83,20 @@ export class CountryService {
 
   async update(
     id: number,
-    updateCountryInput: UpdateCountryInput,
+    updateCityInput: UpdateCityInput,
     prisma: Prisma.TransactionClient,
   ) {
     try {
-      const country = await prisma.country.update({
+      const city = await prisma.city.update({
         where: {
           id,
         },
         data: {
-          ...updateCountryInput,
+          ...updateCityInput,
         },
       });
 
-      return country;
+      return city;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(error);
@@ -105,7 +105,7 @@ export class CountryService {
 
   async remove(id: number, prisma: Prisma.TransactionClient) {
     try {
-      const country = await prisma.country.update({
+      const city = await prisma.city.update({
         where: {
           id,
         },
@@ -115,7 +115,7 @@ export class CountryService {
         },
       });
 
-      return country;
+      return city;
     } catch (error) {
       this.logger.error(error);
       throw new BadRequestException(error);

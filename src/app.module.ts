@@ -24,6 +24,7 @@ import { TagModule } from './tag/tag.module';
 import { LabelModule } from './label/label.module';
 import { TrashModule } from './trash/trash.module';
 import { CountryModule } from './country/country.module';
+import { CityModule } from './city/city.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { CountryModule } from './country/country.module';
     LabelModule,
     TrashModule,
     CountryModule,
+    CityModule,
   ],
   controllers: [AppController],
   providers: [

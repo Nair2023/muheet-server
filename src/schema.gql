@@ -169,14 +169,24 @@ type Country {
   is_deleted: Boolean!
 }
 
+type City {
+  id: Float!
+  name: String!
+  country_id: Float!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+  is_deleted: Boolean!
+}
+
 type Query {
   helloWorld: String!
   accounts(page: Float!, pageSize: Float!, filter: FilterAccountInput, search: String): [Account!]!
   account(id: Int!): Account!
   guests(page: Float!, pageSize: Float!, filter: FilterGuestInput, search: String): [Guest!]!
   guest(id: Int!): Guest!
-  notes(page: Float!, pageSize: Float!, filter: FilterCountryInput, search: String): [Country!]!
-  note(id: Int!): Country!
+  notes(page: Float!, pageSize: Float!, filter: FilterCityInput, search: String): [City!]!
+  note(id: Int!): City!
   devices(page: Float!, pageSize: Float!, filter: FilterDeviceInput, search: String): [Device!]!
   device(id: Int!): Device!
   companies(page: Float!, pageSize: Float!, filter: FilterCompanyInput, search: String): [Company!]!
@@ -220,9 +230,10 @@ input FilterGuestInput {
   upload_id: Float
 }
 
-input FilterCountryInput {
+input FilterCityInput {
   id: Float
-  name: String!
+  name: String
+  country_id: Float
 }
 
 input FilterDeviceInput {
@@ -298,6 +309,9 @@ type Mutation {
   createCountry(createCountryInput: CreateCountryInput!): Country!
   updateCountry(updateCountryInput: UpdateCountryInput!): Country!
   removeCountry(id: Int!): Country!
+  createCity(createCityInput: CreateCityInput!): City!
+  updateCity(updateCityInput: UpdateCityInput!): City!
+  removeCity(id: Int!): City!
 }
 
 input CreateAccountInput {
@@ -462,5 +476,16 @@ input CreateCountryInput {
 
 input UpdateCountryInput {
   name: String
+  id: Float!
+}
+
+input CreateCityInput {
+  name: String!
+  country_id: Float!
+}
+
+input UpdateCityInput {
+  name: String
+  country_id: Float
   id: Float!
 }
