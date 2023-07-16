@@ -27,3 +27,33 @@ export class CreateNoteInput {
   @IsBoolean()
   checkable?: boolean;
 }
+
+@InputType()
+export class FilterNoteInput {
+  @IsInt()
+  id?: number;
+
+  @IsString()
+  title?: string;
+
+  @IsString()
+  body?: string;
+
+  @IsInt()
+  account_id?: number;
+
+  @IsInt()
+  collection_id?: number;
+
+  @IsBoolean()
+  checked?: boolean;
+
+  @IsBoolean()
+  cooperative?: boolean;
+
+  @IsBoolean()
+  shared?: boolean;
+
+  @IsBoolean()
+  checkable?: boolean;
+}

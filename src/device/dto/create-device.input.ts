@@ -29,3 +29,33 @@ export class CreateDeviceInput {
   @IsEnum(LanguageEnum)
   language: LanguageEnum;
 }
+
+@InputType()
+export class FilterDeviceInput {
+  @IsInt()
+  id?: number;
+
+  @IsInt()
+  account_id?: number;
+
+  @IsInt()
+  guest_id?: number;
+
+  @IsString()
+  ip?: string;
+
+  @IsString()
+  fcm_token?: string;
+
+  @IsString()
+  biometric_public_key?: string;
+
+  @IsBoolean()
+  notifications_enabled?: boolean;
+
+  @IsEnum(OSEnum)
+  os?: OSEnum;
+
+  @IsEnum(LanguageEnum)
+  language?: LanguageEnum;
+}

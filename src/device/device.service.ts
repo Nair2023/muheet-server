@@ -28,9 +28,32 @@ export class DeviceService {
     }
   }
 
-  async findAll(prisma: Prisma.TransactionClient) {
+  async findAll(
+    prisma: Prisma.TransactionClient,
+    page: number,
+    pageSize: number,
+    filter?: Prisma.deviceWhereInput,
+    search?: string,
+  ) {
     try {
+      const where: Prisma.deviceWhereInput = { ...filter };
+
+      if (search) {
+        search = JSON.parse(search);
+
+        Object.keys(search).forEach((key) => {
+          where[key] = { contains: search[key], mode: 'insensitive' };
+        });
+      }
+
       const device = await prisma.device.findMany({
+        where,
+        ...(page && {
+          ...(page && {
+            skip: Number(pageSize) * (page - 1),
+            take: Number(pageSize),
+          }),
+        }),
         orderBy: {
           id: 'desc',
         },

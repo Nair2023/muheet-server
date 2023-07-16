@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { GuestService } from './guest.service';
 import { Guest } from './entities/guest.entity';
-import { CreateGuestInput } from './dto/create-guest.input';
+import { CreateGuestInput, FilterGuestInput } from './dto/create-guest.input';
 import { UpdateGuestInput } from './dto/update-guest.input';
 import { PrismaService } from '../prisma.service';
 import { Prisma } from '@prisma/client';
@@ -31,11 +31,22 @@ export class GuestResolver {
     );
   }
 
-  @Query(() => [Guest], { name: 'guests' })
-  async findAll() {
+  @Query(() => [Guest])
+  guests(
+    @Args('page') page: number,
+    @Args('pageSize') pageSize: number,
+    @Args('filter', { nullable: true }) filter?: FilterGuestInput,
+    @Args('search', { nullable: true }) search?: string,
+  ) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.guestService.findAll(prisma);
+        return this.guestService.findAll(
+          prisma,
+          page,
+          pageSize,
+          filter,
+          search,
+        );
       },
     );
   }

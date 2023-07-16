@@ -23,7 +23,7 @@ export class SendEmailHelper {
         this.mailerService
           .sendMail({
             to: sanitizedEmail,
-            subject: `WashyWash - ${subject} ${!!name ? name : ''}`,
+            subject: `Muheet - ${subject} ${!!name ? name : ''}`,
             template: `${join(__dirname, '../../../emails')}/${fileName}`,
             context: {
               data,

@@ -9,3 +9,15 @@ export class CreateGuestInput {
   @IsInt()
   upload_id?: number;
 }
+
+@InputType()
+export class FilterGuestInput {
+  @IsInt()
+  id?: number;
+
+  @IsString()
+  name?: string;
+
+  @IsInt()
+  upload_id?: number;
+}

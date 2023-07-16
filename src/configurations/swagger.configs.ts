@@ -3,8 +3,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 export const SetupSwagger = (app: INestApplication): void => {
   const options = new DocumentBuilder()
-    .setTitle('Washy Wash Platform API')
-    .setDescription('The Washy Wash Platform API documentation')
+    .setTitle('Muheet Platform API')
+    .setDescription('The Muheet Platform API documentation')
     .setVersion('1.0')
     .addBearerAuth()
     .addApiKey({ type: 'apiKey', name: 'X-API-KEY', in: 'header' }, 'X-API-KEY')

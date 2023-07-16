@@ -150,7 +150,6 @@ export class TokenService {
       return token;
     } catch (error) {
       this.logger.error(error);
-
       throw new BadRequestException(error);
     }
   }
@@ -202,7 +201,6 @@ export class TokenService {
       };
     } catch (error) {
       this.logger.error(error);
-
       throw new BadRequestException(error);
     }
   }
@@ -241,7 +239,6 @@ export class TokenService {
       };
     } catch (error) {
       this.logger.error(error);
-
       throw new BadRequestException(error);
     }
   }
@@ -284,7 +281,6 @@ export class TokenService {
       return true;
     } catch (error) {
       this.logger.error(error);
-
       throw new BadRequestException(error);
     }
   }
@@ -358,7 +354,6 @@ export class TokenService {
       };
     } catch (error) {
       this.logger.error(error);
-
       throw new BadRequestException(error);
     }
   }

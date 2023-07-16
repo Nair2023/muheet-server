@@ -28,9 +28,32 @@ export class NoteService {
     }
   }
 
-  async findAll(prisma: Prisma.TransactionClient) {
+  async findAll(
+    prisma: Prisma.TransactionClient,
+    page: number,
+    pageSize: number,
+    filter?: Prisma.noteWhereInput,
+    search?: string,
+  ) {
     try {
+      const where: Prisma.noteWhereInput = { ...filter };
+
+      if (search) {
+        search = JSON.parse(search);
+
+        Object.keys(search).forEach((key) => {
+          where[key] = { contains: search[key], mode: 'insensitive' };
+        });
+      }
+
       const note = await prisma.note.findMany({
+        where,
+        ...(page && {
+          ...(page && {
+            skip: Number(pageSize) * (page - 1),
+            take: Number(pageSize),
+          }),
+        }),
         orderBy: {
           id: 'desc',
         },
