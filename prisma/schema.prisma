@@ -558,7 +558,7 @@ model country {
 model city {
   id         Int       @id @default(autoincrement())
   name       String
-  country_id Int?
+  country_id Int
   is_deleted Boolean   @default(false)
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
