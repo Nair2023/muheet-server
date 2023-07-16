@@ -20,6 +20,7 @@ import { MailerConfig } from './configurations/mailer.configs';
 import { LoggerInterceptor } from './utils/interceptors/logger.interceptor';
 import { DeviceModule } from './device/device.module';
 import { CompanyModule } from './company/company.module';
+import { TagModule } from './tag/tag.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { CompanyModule } from './company/company.module';
     NoteModule,
     DeviceModule,
     CompanyModule,
+    TagModule,
   ],
   controllers: [AppController],
   providers: [
