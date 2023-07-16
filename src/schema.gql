@@ -148,6 +148,18 @@ type Label {
   is_archived: Boolean!
 }
 
+type Trash {
+  id: Float!
+  is_empty: Boolean!
+  account_id: Float
+  company_id: Float
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+  is_deleted: Boolean!
+  is_archived: Boolean!
+}
+
 type Query {
   helloWorld: String!
   accounts(page: Float!, pageSize: Float!, filter: FilterAccountInput, search: String): [Account!]!
@@ -164,6 +176,8 @@ type Query {
   tag(id: Int!): Tag!
   labels(page: Float!, pageSize: Float!, filter: FilterLabelInput, search: String): [Label!]!
   label(id: Int!): Label!
+  trashes(page: Float!, pageSize: Float!, filter: FilterTrashInput, search: String): [Trash!]!
+  trash(id: Int!): Trash!
 }
 
 input FilterAccountInput {
@@ -245,6 +259,13 @@ input FilterLabelInput {
   company_id: Float
 }
 
+input FilterTrashInput {
+  id: Float
+  is_empty: Boolean
+  account_id: Float
+  company_id: Float
+}
+
 type Mutation {
   createAccount(createAccountInput: CreateAccountInput!): Account!
   login(loginInput: LoginDto!): Account!
@@ -270,6 +291,8 @@ type Mutation {
   createLabel(createLabelInput: CreateLabelInput!): Label!
   updateLabel(updateLabelInput: UpdateLabelInput!): Label!
   removeLabel(id: Int!): Label!
+  createTrash(createTrashInput: CreateTrashInput!): Trash!
+  updateTrash(updateTrashInput: UpdateTrashInput!): Trash!
 }
 
 input CreateAccountInput {
@@ -410,6 +433,19 @@ input CreateLabelInput {
 
 input UpdateLabelInput {
   name: String
+  account_id: Float
+  company_id: Float
+  id: Float!
+}
+
+input CreateTrashInput {
+  is_empty: Boolean!
+  account_id: Float
+  company_id: Float
+}
+
+input UpdateTrashInput {
+  is_empty: Boolean
   account_id: Float
   company_id: Float
   id: Float!

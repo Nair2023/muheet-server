@@ -22,6 +22,7 @@ import { DeviceModule } from './device/device.module';
 import { CompanyModule } from './company/company.module';
 import { TagModule } from './tag/tag.module';
 import { LabelModule } from './label/label.module';
+import { TrashModule } from './trash/trash.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { LabelModule } from './label/label.module';
     CompanyModule,
     TagModule,
     LabelModule,
+    TrashModule,
   ],
   controllers: [AppController],
   providers: [
