@@ -55,7 +55,8 @@
     "path": "^0.12.7",
     "postinstall-postinstall": "^2.1.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@apollo/server": "^4.7.4",

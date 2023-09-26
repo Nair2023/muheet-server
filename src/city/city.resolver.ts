@@ -9,7 +9,7 @@ import { Prisma } from '@prisma/client';
 @Resolver(() => City)
 export class CityResolver {
   constructor(
-    private readonly noteService: CityService,
+    private readonly cityService: CityService,
     private readonly prismaService: PrismaService,
   ) {}
 
@@ -17,13 +17,13 @@ export class CityResolver {
   async createCity(@Args('createCityInput') createCityInput: CreateCityInput) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.noteService.create(createCityInput, prisma);
+        return this.cityService.create(createCityInput, prisma);
       },
     );
   }
 
   @Query(() => [City])
-  notes(
+  cities(
     @Args('page') page: number,
     @Args('pageSize') pageSize: number,
     @Args('filter', { nullable: true }) filter?: FilterCityInput,
@@ -31,16 +31,16 @@ export class CityResolver {
   ) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.noteService.findAll(prisma, page, pageSize, filter, search);
+        return this.cityService.findAll(prisma, page, pageSize, filter, search);
       },
     );
   }
 
-  @Query(() => City, { name: 'note' })
+  @Query(() => City, { name: 'city' })
   async findOne(@Args('id', { type: () => Int }) id: number) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.noteService.findOne(id, prisma);
+        return this.cityService.findOne(id, prisma);
       },
     );
   }
@@ -49,7 +49,7 @@ export class CityResolver {
   async updateCity(@Args('updateCityInput') updateCityInput: UpdateCityInput) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.noteService.update(
+        return this.cityService.update(
           updateCityInput.id,
           updateCityInput,
           prisma,
@@ -62,7 +62,7 @@ export class CityResolver {
   async removeCity(@Args('id', { type: () => Int }) id: number) {
     return this.prismaService.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        return this.noteService.remove(id, prisma);
+        return this.cityService.remove(id, prisma);
       },
     );
   }

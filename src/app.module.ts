@@ -26,6 +26,35 @@ import { TrashModule } from './trash/trash.module';
 import { CountryModule } from './country/country.module';
 import { CityModule } from './city/city.module';
 import { SettingModule } from './setting/setting.module';
+import { SharedNoteModule } from './shared-note/shared-note.module';
+import { AdminModule } from './admin/admin.module';
+import { UserModule } from './user/user.module';
+import { CompanyUserModule } from './company-user/company-user.module';
+import { CompanyClientModule } from './company-client/company-client.module';
+import { ClientModule } from './client/client.module';
+import { MeetingModule } from './meeting/meeting.module';
+import { MeetingInviteeModule } from './meeting-invitee/meeting-invitee.module';
+import { CooperativeNoteModule } from './cooperative-note/cooperative-note.module';
+import { CategoryModule } from './category/category.module';
+import { CooperativeCollectionModule } from './cooperative-collection/cooperative-collection.module';
+import { SharedCollectionModule } from './shared-collection/shared-collection.module';
+import { CollectionModule } from './collection/collection.module';
+import { NoteCollectionModule } from './note-collection/note-collection.module';
+import { TagCollectionModule } from './tag-collection/tag-collection.module';
+import { CategoryNoteModule } from './category-note/category-note.module';
+import { CategoryLabelModule } from './category-label/category-label.module';
+import { NoteUploadModule } from './note-upload/note-upload.module';
+import { NoteLabelModule } from './note-label/note-label.module';
+import { ArchiveModule } from './archive/archive.module';
+import { TrashUploadModule } from './trash-upload/trash-upload.module';
+import { TrashNoteModule } from './trash-note/trash-note.module';
+import { UploadModule } from './upload/upload.module';
+import { SystemConfigModule } from './system-config/system-config.module';
+import { SystemConfigUploadModule } from './system-config-upload/system-config-upload.module';
+import { NotificationModule } from './notification/notification.module';
+import { ReminderModule } from './reminder/reminder.module';
+import { DeadlineModule } from './deadline/deadline.module';
+import { DeadlineFighterModule } from './deadline-fighter/deadline-fighter.module';
 
 @Module({
   imports: [
@@ -50,6 +79,35 @@ import { SettingModule } from './setting/setting.module';
     CountryModule,
     CityModule,
     SettingModule,
+    SharedNoteModule,
+    AdminModule,
+    UserModule,
+    CompanyUserModule,
+    CompanyClientModule,
+    ClientModule,
+    MeetingModule,
+    MeetingInviteeModule,
+    CooperativeNoteModule,
+    CategoryModule,
+    CooperativeCollectionModule,
+    SharedCollectionModule,
+    CollectionModule,
+    NoteCollectionModule,
+    TagCollectionModule,
+    CategoryNoteModule,
+    CategoryLabelModule,
+    NoteUploadModule,
+    NoteLabelModule,
+    ArchiveModule,
+    TrashUploadModule,
+    TrashNoteModule,
+    UploadModule,
+    SystemConfigModule,
+    SystemConfigUploadModule,
+    NotificationModule,
+    ReminderModule,
+    DeadlineModule,
+    DeadlineFighterModule,
   ],
   controllers: [AppController],
   providers: [
