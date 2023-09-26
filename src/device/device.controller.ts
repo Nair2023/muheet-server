@@ -24,7 +24,7 @@ import { Device } from './entities/device.entity';
 import { ApiHeaders } from 'src/utils/decorators/headers.decorator';
 import { PrismaService } from 'src/prisma.service';
 
-@ApiHeaders({ withAuth: false })
+@ApiHeaders({ withAuth: false, withDevice: false })
 @ApiTags('Device')
 @Controller('device')
 export class DeviceController {

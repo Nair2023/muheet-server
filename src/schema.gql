@@ -187,14 +187,352 @@ type Setting {
   updated_at: DateTime!
 }
 
+type SharedNote {
+  id: Float!
+  note_id: Float!
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type Admin {
+  id: Float!
+  account_id: Float!
+  created_at: DateTime!
+  updated_at: DateTime
+  is_deleted: Boolean!
+  deleted_at: DateTime
+  role: AdminRoles!
+}
+
+enum AdminRoles {
+  super_admin
+  admin
+}
+
+type User {
+  id: Float!
+  account_id: Float!
+  created_at: DateTime!
+  updated_at: DateTime
+  is_deleted: Boolean!
+  deleted_at: DateTime
+}
+
+type CompanyUser {
+  id: Float!
+  account_id: Float!
+  company_id: Float!
+  account_type: AccountType!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type CompanyClient {
+  id: Float!
+  account_id: Float!
+  company_id: Float!
+  deleted_at: DateTime
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Client {
+  id: Float!
+  account_id: Float!
+  company_id: Float!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type Meeting {
+  deleted_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+  id: Float!
+  time: DateTime!
+  calendar_reminder: Boolean!
+  account_id: Float
+  company_id: Float
+  invite_people: Boolean!
+  is_deleted: Boolean!
+  title: String!
+  body: String!
+  place: String
+}
+
+type MeetingInvitee {
+  id: Float!
+  account_id: Float
+  company_id: Float
+  meeting_id: Float!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type CooperativeNote {
+  id: Float!
+  note_id: Float!
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type Category {
+  deleted_at: DateTime
+  id: Float!
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String!
+}
+
+type CooperativeCollection {
+  id: Float!
+  collection_id: Float!
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type SharedCollection {
+  id: Float!
+  collection_id: Float!
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type Collection {
+  deleted_at: DateTime
+  id: Float!
+  account_id: Float
+  company_id: Float
+  cooperative: Boolean!
+  shared: Boolean!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String!
+}
+
+type NoteCollection {
+  id: Float!
+  note_id: Float!
+  collection_id: Float!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type TagCollection {
+  id: Float!
+  tag_id: Float!
+  collection_id: Float!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type CategoryNote {
+  id: Float!
+  note_id: Float
+  category_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type CategoryLabel {
+  id: Float!
+  label_id: Float
+  category_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type NoteUpload {
+  id: Float!
+  note_id: Float
+  upload_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type NoteLabel {
+  id: Float!
+  note_id: Float
+  label_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type Archive {
+  id: Float!
+  account_id: Float
+  company_id: Float
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type TrashUpload {
+  id: Float!
+  trash_id: Float
+  upload_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type TrashNote {
+  id: Float!
+  trash_id: Float
+  note_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type Upload {
+  base_type: UploadType!
+  updated_at: DateTime!
+  deleted_at: DateTime
+  id: Float!
+  file_size: Float!
+  is_delete: Boolean!
+  created_at: DateTime!
+  file_name: String!
+  file_type: String!
+  aws_key: String!
+}
+
+enum UploadType {
+  image
+  video
+  audio
+  document
+}
+
+type SystemConfig {
+  id: Float!
+  country_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type SystemConfigUpload {
+  id: Float!
+  upload_id: Float
+  config_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type Notification {
+  params: JSONObject
+  translation_params: JSONObject
+  deleted_at: DateTime
+  updated_at: DateTime!
+  id: Float!
+  account_id: Float
+  company_id: Float
+  is_read: Boolean!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  title: String!
+  body: String!
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
+type Reminder {
+  id: Float!
+  note_id: Float!
+  account_id: Float
+  company_id: Float
+  time: DateTime!
+  repeat: Boolean!
+  deleted_at: DateTime
+  is_deleted: Boolean!
+  is_archived: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  place: String
+}
+
+type Deadline {
+  id: Float!
+  note_id: Float
+  collection_id: Float
+  category_id: Float
+  label_id: Float
+  tag_id: Float
+  time: DateTime!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type DeadlineFighter {
+  id: Float!
+  deadline_id: Float
+  account_id: Float
+  client_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
 type Query {
   helloWorld: String!
   accounts(page: Float!, pageSize: Float!, filter: FilterAccountInput, search: String): [Account!]!
   account(id: Int!): Account!
   guests(page: Float!, pageSize: Float!, filter: FilterGuestInput, search: String): [Guest!]!
   guest(id: Int!): Guest!
-  notes(page: Float!, pageSize: Float!, filter: FilterCityInput, search: String): [City!]!
-  note(id: Int!): City!
+  notes(page: Float!, pageSize: Float!, filter: FilterCountryInput, search: String): [Country!]!
+  note(id: Int!): Country!
   devices(page: Float!, pageSize: Float!, filter: FilterDeviceInput, search: String): [Device!]!
   device(id: Int!): Device!
   companies(page: Float!, pageSize: Float!, filter: FilterCompanyInput, search: String): [Company!]!
@@ -205,8 +543,68 @@ type Query {
   label(id: Int!): Label!
   trashes(page: Float!, pageSize: Float!, filter: FilterTrashInput, search: String): [Trash!]!
   trash(id: Int!): Trash!
+  cities(page: Float!, pageSize: Float!, filter: FilterCityInput, search: String): [City!]!
+  city(id: Int!): City!
   settings(page: Float!, pageSize: Float!, filter: FilterSettingInput, search: String): [Setting!]!
   setting(id: Int!): Setting!
+  sharedNotes(page: Float!, pageSize: Float!, filter: FilterSharedNoteInput, search: String): [SharedNote!]!
+  sharedNote(id: Int!): SharedNote!
+  admins(page: Float!, pageSize: Float!, filter: FilterAdminInput, search: String): [Admin!]!
+  admin(id: Int!): Admin!
+  users(page: Float!, pageSize: Float!, filter: FilterUserInput, search: String): [User!]!
+  user(id: Int!): User!
+  companyUsers(page: Float!, pageSize: Float!, filter: FilterCompanyUserInput, search: String): [CompanyUser!]!
+  companyUser(id: Int!): CompanyUser!
+  companyClients(page: Float!, pageSize: Float!, filter: FilterCompanyClientInput, search: String): [CompanyClient!]!
+  companyClient(id: Int!): CompanyClient!
+  clients(page: Float!, pageSize: Float!, filter: FilterClientInput, search: String): [Client!]!
+  client(id: Int!): Client!
+  meetings(page: Float!, pageSize: Float!, filter: FilterMeetingInput, search: String): [Meeting!]!
+  meeting(id: Int!): Meeting!
+  meetingInvitees(page: Float!, pageSize: Float!, filter: FilterMeetingInviteeInput, search: String): [MeetingInvitee!]!
+  meetingInvitee(id: Int!): MeetingInvitee!
+  cooperativeNotes(page: Float!, pageSize: Float!, filter: FilterCooperativeNoteInput, search: String): [CooperativeNote!]!
+  cooperativeNote(id: Int!): CooperativeNote!
+  categorys(page: Float!, pageSize: Float!, filter: FilterCategoryInput, search: String): [Category!]!
+  category(id: Int!): Category!
+  cooperativeCollections(page: Float!, pageSize: Float!, filter: FilterCooperativeCollectionInput, search: String): [CooperativeCollection!]!
+  cooperativeCollection(id: Int!): CooperativeCollection!
+  sharedCollections(page: Float!, pageSize: Float!, filter: FilterSharedCollectionInput, search: String): [SharedCollection!]!
+  sharedCollection(id: Int!): SharedCollection!
+  collections(page: Float!, pageSize: Float!, filter: FilterCollectionInput, search: String): [Collection!]!
+  collection(id: Int!): Collection!
+  noteCollections(page: Float!, pageSize: Float!, filter: FilterNoteCollectionInput, search: String): [NoteCollection!]!
+  noteCollection(id: Int!): NoteCollection!
+  tagCollections(page: Float!, pageSize: Float!, filter: FilterTagCollectionInput, search: String): [TagCollection!]!
+  tagCollection(id: Int!): TagCollection!
+  categoryNotes(page: Float!, pageSize: Float!, filter: FilterCategoryNoteInput, search: String): [CategoryNote!]!
+  categoryNote(id: Int!): CategoryNote!
+  categoryLabels(page: Float!, pageSize: Float!, filter: FilterCategoryLabelInput, search: String): [CategoryLabel!]!
+  categoryLabel(id: Int!): CategoryLabel!
+  noteUploads(page: Float!, pageSize: Float!, filter: FilterNoteUploadInput, search: String): [NoteUpload!]!
+  noteUpload(id: Int!): NoteUpload!
+  noteLabels(page: Float!, pageSize: Float!, filter: FilterNoteLabelInput, search: String): [NoteLabel!]!
+  noteLabel(id: Int!): NoteLabel!
+  archives(page: Float!, pageSize: Float!, filter: FilterArchiveInput, search: String): [Archive!]!
+  archive(id: Int!): Archive!
+  trashUploads(page: Float!, pageSize: Float!, filter: FilterTrashUploadInput, search: String): [TrashUpload!]!
+  trashUpload(id: Int!): TrashUpload!
+  trashNotes(page: Float!, pageSize: Float!, filter: FilterTrashNoteInput, search: String): [TrashNote!]!
+  trashNote(id: Int!): TrashNote!
+  uploads(page: Float!, pageSize: Float!, filter: FilterUploadInput, search: String): [Upload!]!
+  upload(id: Int!): Upload!
+  systemConfigs(page: Float!, pageSize: Float!, filter: FilterSystemConfigInput, search: String): [SystemConfig!]!
+  systemConfig(id: Int!): SystemConfig!
+  systemConfigUploads(page: Float!, pageSize: Float!, filter: FilterSystemConfigUploadInput, search: String): [SystemConfigUpload!]!
+  systemConfigUpload(id: Int!): SystemConfigUpload!
+  notifications(page: Float!, pageSize: Float!, filter: FilterNotificationInput, search: String): [Notification!]!
+  notification(id: Int!): Notification!
+  reminders(page: Float!, pageSize: Float!, filter: FilterReminderInput, search: String): [Reminder!]!
+  reminder(id: Int!): Reminder!
+  deadlines(page: Float!, pageSize: Float!, filter: FilterDeadlineInput, search: String): [Deadline!]!
+  deadline(id: Int!): Deadline!
+  deadlineFighters(page: Float!, pageSize: Float!, filter: FilterDeadlineFighterInput, search: String): [DeadlineFighter!]!
+  deadlineFighter(id: Int!): DeadlineFighter!
 }
 
 input FilterAccountInput {
@@ -229,21 +627,15 @@ input FilterAccountInput {
   admin_role: AdminRoles
 }
 
-enum AdminRoles {
-  super_admin
-  admin
-}
-
 input FilterGuestInput {
   id: Float
   name: String
   upload_id: Float
 }
 
-input FilterCityInput {
+input FilterCountryInput {
   id: Float
-  name: String
-  country_id: Float
+  name: String!
 }
 
 input FilterDeviceInput {
@@ -289,10 +681,337 @@ input FilterTrashInput {
   company_id: Float
 }
 
+input FilterCityInput {
+  id: Float
+  name: String
+  country_id: Float
+}
+
 input FilterSettingInput {
   id: Float
   account_id: Float
   company_id: Float
+}
+
+input FilterSharedNoteInput {
+  id: Float
+  note_id: Float
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterAdminInput {
+  id: Float
+  account_id: Float
+  created_at: DateTime
+  updated_at: DateTime
+  is_deleted: Boolean
+  deleted_at: DateTime
+  role: AdminRoles
+}
+
+input FilterUserInput {
+  id: Float
+  account_id: Float
+  created_at: DateTime
+  updated_at: DateTime
+  is_deleted: Boolean
+  deleted_at: DateTime
+}
+
+input FilterCompanyUserInput {
+  id: Float
+  account_id: Float
+  company_id: Float
+  account_type: AccountType!
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterCompanyClientInput {
+  id: Float
+  account_id: Float
+  company_id: Float
+  deleted_at: DateTime
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+input FilterClientInput {
+  id: Float
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterMeetingInput {
+  deleted_at: DateTime
+  created_at: DateTime
+  updated_at: DateTime
+  id: Float
+  time: DateTime
+  calendar_reminder: Boolean
+  account_id: Float
+  company_id: Float
+  invite_people: Boolean
+  is_deleted: Boolean
+  title: String
+  body: String
+  place: String
+}
+
+input FilterMeetingInviteeInput {
+  id: Float
+  account_id: Float
+  company_id: Float
+  meeting_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterCooperativeNoteInput {
+  id: Float
+  note_id: Float
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterCategoryInput {
+  deleted_at: DateTime
+  id: Float
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  name: String
+}
+
+input FilterCooperativeCollectionInput {
+  id: Float
+  collection_id: Float
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterSharedCollectionInput {
+  id: Float
+  collection_id: Float
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterCollectionInput {
+  deleted_at: DateTime
+  id: Float
+  account_id: Float
+  company_id: Float
+  cooperative: Boolean
+  shared: Boolean
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  name: String
+}
+
+input FilterNoteCollectionInput {
+  id: Float
+  note_id: Float
+  collection_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterTagCollectionInput {
+  id: Float
+  tag_id: Float
+  collection_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterCategoryNoteInput {
+  id: Float
+  note_id: Float
+  category_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterCategoryLabelInput {
+  id: Float
+  label_id: Float
+  category_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterNoteUploadInput {
+  id: Float
+  note_id: Float
+  upload_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterNoteLabelInput {
+  id: Float
+  note_id: Float
+  label_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterArchiveInput {
+  id: Float
+  account_id: Float
+  company_id: Float
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+input FilterTrashUploadInput {
+  id: Float
+  trash_id: Float
+  upload_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterTrashNoteInput {
+  id: Float
+  trash_id: Float
+  note_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterUploadInput {
+  base_type: UploadType
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float
+  file_size: Float
+  is_delete: Boolean
+  created_at: DateTime
+  file_name: String
+  file_type: String
+  aws_key: String
+}
+
+input FilterSystemConfigInput {
+  id: Float
+  country_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterSystemConfigUploadInput {
+  id: Float
+  upload_id: Float
+  config_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterNotificationInput {
+  params: JSONObject
+  translation_params: JSONObject
+  deleted_at: DateTime
+  updated_at: DateTime
+  id: Float
+  account_id: Float
+  company_id: Float
+  is_read: Boolean
+  is_deleted: Boolean
+  created_at: DateTime
+  title: String
+  body: String
+}
+
+input FilterReminderInput {
+  id: Float
+  note_id: Float
+  account_id: Float
+  company_id: Float
+  time: DateTime
+  repeat: Boolean
+  deleted_at: DateTime
+  is_deleted: Boolean
+  is_archived: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  place: String
+}
+
+input FilterDeadlineInput {
+  id: Float
+  note_id: Float
+  collection_id: Float
+  category_id: Float
+  label_id: Float
+  tag_id: Float
+  time: DateTime
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+input FilterDeadlineFighterInput {
+  id: Float
+  deadline_id: Float
+  account_id: Float
+  client_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
 }
 
 type Mutation {
@@ -330,6 +1049,93 @@ type Mutation {
   removeCity(id: Int!): City!
   createSetting(createSettingInput: CreateSettingInput!): Setting!
   updateSetting(updateSettingInput: UpdateSettingInput!): Setting!
+  createSharedNote(createSharedNoteInput: CreateSharedNoteInput!): SharedNote!
+  updateSharedNote(updateSharedNoteInput: UpdateSharedNoteInput!): SharedNote!
+  removeSharedNote(id: Int!): SharedNote!
+  createAdmin(createAdminInput: CreateAdminInput!): Admin!
+  updateAdmin(updateAdminInput: UpdateAdminInput!): Admin!
+  removeAdmin(id: Int!): Admin!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  createCompanyUser(createCompanyUserInput: CreateCompanyUserInput!): CompanyUser!
+  updateCompanyUser(updateCompanyUserInput: UpdateCompanyUserInput!): CompanyUser!
+  removeCompanyUser(id: Int!): CompanyUser!
+  createCompanyClient(createCompanyClientInput: CreateCompanyClientInput!): CompanyClient!
+  updateCompanyClient(updateCompanyClientInput: UpdateCompanyClientInput!): CompanyClient!
+  removeCompanyClient(id: Int!): CompanyClient!
+  createClient(createClientInput: CreateClientInput!): Client!
+  updateClient(updateClientInput: UpdateClientInput!): Client!
+  removeClient(id: Int!): Client!
+  createMeeting(createMeetingInput: CreateMeetingInput!): Meeting!
+  updateMeeting(updateMeetingInput: UpdateMeetingInput!): Meeting!
+  removeMeeting(id: Int!): Meeting!
+  createMeetingInvitee(createMeetingInviteeInput: CreateMeetingInviteeInput!): MeetingInvitee!
+  updateMeetingInvitee(updateMeetingInviteeInput: UpdateMeetingInviteeInput!): MeetingInvitee!
+  removeMeetingInvitee(id: Int!): MeetingInvitee!
+  createCooperativeNote(createCooperativeNoteInput: CreateCooperativeNoteInput!): CooperativeNote!
+  updateCooperativeNote(updateCooperativeNoteInput: UpdateCooperativeNoteInput!): CooperativeNote!
+  removeCooperativeNote(id: Int!): CooperativeNote!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category!
+  createCooperativeCollection(createCooperativeCollectionInput: CreateCooperativeCollectionInput!): CooperativeCollection!
+  updateCooperativeCollection(updateCooperativeCollectionInput: UpdateCooperativeCollectionInput!): CooperativeCollection!
+  removeCooperativeCollection(id: Int!): CooperativeCollection!
+  createSharedCollection(createSharedCollectionInput: CreateSharedCollectionInput!): SharedCollection!
+  updateSharedCollection(updateSharedCollectionInput: UpdateSharedCollectionInput!): SharedCollection!
+  removeSharedCollection(id: Int!): SharedCollection!
+  createCollection(createCollectionInput: CreateCollectionInput!): Collection!
+  updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
+  removeCollection(id: Int!): Collection!
+  createNoteCollection(createNoteCollectionInput: CreateNoteCollectionInput!): NoteCollection!
+  updateNoteCollection(updateNoteCollectionInput: UpdateNoteCollectionInput!): NoteCollection!
+  removeNoteCollection(id: Int!): NoteCollection!
+  createTagCollection(createTagCollectionInput: CreateTagCollectionInput!): TagCollection!
+  updateTagCollection(updateTagCollectionInput: UpdateTagCollectionInput!): TagCollection!
+  removeTagCollection(id: Int!): TagCollection!
+  createCategoryNote(createCategoryNoteInput: CreateCategoryNoteInput!): CategoryNote!
+  updateCategoryNote(updateCategoryNoteInput: UpdateCategoryNoteInput!): CategoryNote!
+  removeCategoryNote(id: Int!): CategoryNote!
+  createCategoryLabel(createCategoryLabelInput: CreateCategoryLabelInput!): CategoryLabel!
+  updateCategoryLabel(updateCategoryLabelInput: UpdateCategoryLabelInput!): CategoryLabel!
+  removeCategoryLabel(id: Int!): CategoryLabel!
+  createNoteUpload(createNoteUploadInput: CreateNoteUploadInput!): NoteUpload!
+  updateNoteUpload(updateNoteUploadInput: UpdateNoteUploadInput!): NoteUpload!
+  removeNoteUpload(id: Int!): NoteUpload!
+  createNoteLabel(createNoteLabelInput: CreateNoteLabelInput!): NoteLabel!
+  updateNoteLabel(updateNoteLabelInput: UpdateNoteLabelInput!): NoteLabel!
+  removeNoteLabel(id: Int!): NoteLabel!
+  createArchive(createArchiveInput: CreateArchiveInput!): Archive!
+  updateArchive(updateArchiveInput: UpdateArchiveInput!): Archive!
+  removeArchive(id: Int!): Boolean!
+  createTrashUpload(createTrashUploadInput: CreateTrashUploadInput!): TrashUpload!
+  updateTrashUpload(updateTrashUploadInput: UpdateTrashUploadInput!): TrashUpload!
+  removeTrashUpload(id: Int!): TrashUpload!
+  createTrashNote(createTrashNoteInput: CreateTrashNoteInput!): TrashNote!
+  updateTrashNote(updateTrashNoteInput: UpdateTrashNoteInput!): TrashNote!
+  removeTrashNote(id: Int!): TrashNote!
+  createUpload(createUploadInput: CreateUploadInput!): Upload!
+  updateUpload(updateUploadInput: UpdateUploadInput!): Upload!
+  removeUpload(id: Int!): Boolean!
+  createSystemConfig(createSystemConfigInput: CreateSystemConfigInput!): SystemConfig!
+  updateSystemConfig(updateSystemConfigInput: UpdateSystemConfigInput!): SystemConfig!
+  removeSystemConfig(id: Int!): SystemConfig!
+  createSystemConfigUpload(createSystemConfigUploadInput: CreateSystemConfigUploadInput!): SystemConfigUpload!
+  updateSystemConfigUpload(updateSystemConfigUploadInput: UpdateSystemConfigUploadInput!): SystemConfigUpload!
+  removeSystemConfigUpload(id: Int!): SystemConfigUpload!
+  createNotification(createNotificationInput: CreateNotificationInput!): Notification!
+  updateNotification(updateNotificationInput: UpdateNotificationInput!): Notification!
+  removeNotification(id: Int!): Notification!
+  createReminder(createReminderInput: CreateReminderInput!): Reminder!
+  updateReminder(updateReminderInput: UpdateReminderInput!): Reminder!
+  removeReminder(id: Int!): Reminder!
+  createDeadline(createDeadlineInput: CreateDeadlineInput!): Deadline!
+  updateDeadline(updateDeadlineInput: UpdateDeadlineInput!): Deadline!
+  removeDeadline(id: Int!): Deadline!
+  createDeadlineFighter(createDeadlineFighterInput: CreateDeadlineFighterInput!): DeadlineFighter!
+  updateDeadlineFighter(updateDeadlineFighterInput: UpdateDeadlineFighterInput!): DeadlineFighter!
+  removeDeadlineFighter(id: Int!): DeadlineFighter!
 }
 
 input CreateAccountInput {
@@ -516,5 +1322,618 @@ input CreateSettingInput {
 input UpdateSettingInput {
   account_id: Float
   company_id: Float
+  id: Float!
+}
+
+input CreateSharedNoteInput {
+  note_id: Float!
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateSharedNoteInput {
+  note_id: Float
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateAdminInput {
+  account_id: Float!
+  created_at: DateTime!
+  updated_at: DateTime
+  is_deleted: Boolean!
+  deleted_at: DateTime
+  role: AdminRoles!
+}
+
+input UpdateAdminInput {
+  account_id: Float
+  created_at: DateTime
+  updated_at: DateTime
+  is_deleted: Boolean
+  deleted_at: DateTime
+  role: AdminRoles
+  id: Float!
+}
+
+input CreateUserInput {
+  account_id: Float!
+  created_at: DateTime!
+  updated_at: DateTime
+  is_deleted: Boolean!
+  deleted_at: DateTime
+}
+
+input UpdateUserInput {
+  account_id: Float
+  created_at: DateTime
+  updated_at: DateTime
+  is_deleted: Boolean
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateCompanyUserInput {
+  account_id: Float!
+  company_id: Float!
+  account_type: AccountType!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateCompanyUserInput {
+  account_id: Float
+  company_id: Float
+  account_type: AccountType
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateCompanyClientInput {
+  account_id: Float!
+  company_id: Float!
+  deleted_at: DateTime
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input UpdateCompanyClientInput {
+  account_id: Float
+  company_id: Float
+  deleted_at: DateTime
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  id: Float!
+}
+
+input CreateClientInput {
+  account_id: Float!
+  company_id: Float!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateClientInput {
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateMeetingInput {
+  deleted_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+  time: DateTime!
+  calendar_reminder: Boolean!
+  account_id: Float
+  company_id: Float
+  invite_people: Boolean!
+  is_deleted: Boolean!
+  title: String!
+  body: String!
+  place: String
+}
+
+input UpdateMeetingInput {
+  deleted_at: DateTime
+  created_at: DateTime
+  updated_at: DateTime
+  time: DateTime
+  calendar_reminder: Boolean
+  account_id: Float
+  company_id: Float
+  invite_people: Boolean
+  is_deleted: Boolean
+  title: String
+  body: String
+  place: String
+  id: Float!
+}
+
+input CreateMeetingInviteeInput {
+  account_id: Float
+  company_id: Float
+  meeting_id: Float!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateMeetingInviteeInput {
+  account_id: Float
+  company_id: Float
+  meeting_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateCooperativeNoteInput {
+  note_id: Float!
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateCooperativeNoteInput {
+  note_id: Float
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateCategoryInput {
+  deleted_at: DateTime
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String!
+}
+
+input UpdateCategoryInput {
+  deleted_at: DateTime
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  name: String
+  id: Float!
+}
+
+input CreateCooperativeCollectionInput {
+  collection_id: Float!
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateCooperativeCollectionInput {
+  collection_id: Float
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateSharedCollectionInput {
+  collection_id: Float!
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateSharedCollectionInput {
+  collection_id: Float
+  account_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateCollectionInput {
+  deleted_at: DateTime
+  account_id: Float
+  company_id: Float
+  cooperative: Boolean!
+  shared: Boolean!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String!
+}
+
+input UpdateCollectionInput {
+  deleted_at: DateTime
+  account_id: Float
+  company_id: Float
+  cooperative: Boolean
+  shared: Boolean
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  name: String
+  id: Float!
+}
+
+input CreateNoteCollectionInput {
+  note_id: Float!
+  collection_id: Float!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateNoteCollectionInput {
+  note_id: Float
+  collection_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateTagCollectionInput {
+  tag_id: Float!
+  collection_id: Float!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateTagCollectionInput {
+  tag_id: Float
+  collection_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateCategoryNoteInput {
+  note_id: Float
+  category_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateCategoryNoteInput {
+  note_id: Float
+  category_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateCategoryLabelInput {
+  label_id: Float
+  category_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateCategoryLabelInput {
+  label_id: Float
+  category_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateNoteUploadInput {
+  note_id: Float
+  upload_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateNoteUploadInput {
+  note_id: Float
+  upload_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateNoteLabelInput {
+  note_id: Float
+  label_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateNoteLabelInput {
+  note_id: Float
+  label_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateArchiveInput {
+  account_id: Float
+  company_id: Float
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input UpdateArchiveInput {
+  account_id: Float
+  company_id: Float
+  created_at: DateTime
+  updated_at: DateTime
+  id: Float!
+}
+
+input CreateTrashUploadInput {
+  trash_id: Float
+  upload_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateTrashUploadInput {
+  trash_id: Float
+  upload_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateTrashNoteInput {
+  trash_id: Float
+  note_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateTrashNoteInput {
+  trash_id: Float
+  note_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateUploadInput {
+  base_type: UploadType!
+  updated_at: DateTime!
+  deleted_at: DateTime
+  file_size: Float!
+  is_delete: Boolean!
+  created_at: DateTime!
+  file_name: String!
+  file_type: String!
+  aws_key: String!
+}
+
+input UpdateUploadInput {
+  base_type: UploadType
+  updated_at: DateTime
+  deleted_at: DateTime
+  file_size: Float
+  is_delete: Boolean
+  created_at: DateTime
+  file_name: String
+  file_type: String
+  aws_key: String
+  id: Float!
+}
+
+input CreateSystemConfigInput {
+  country_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateSystemConfigInput {
+  country_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateSystemConfigUploadInput {
+  upload_id: Float
+  config_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateSystemConfigUploadInput {
+  upload_id: Float
+  config_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateNotificationInput {
+  params: JSONObject
+  translation_params: JSONObject
+  deleted_at: DateTime
+  updated_at: DateTime!
+  account_id: Float
+  company_id: Float
+  is_read: Boolean!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  title: String!
+  body: String!
+}
+
+input UpdateNotificationInput {
+  params: JSONObject
+  translation_params: JSONObject
+  deleted_at: DateTime
+  updated_at: DateTime
+  account_id: Float
+  company_id: Float
+  is_read: Boolean
+  is_deleted: Boolean
+  created_at: DateTime
+  title: String
+  body: String
+  id: Float!
+}
+
+input CreateReminderInput {
+  note_id: Float!
+  account_id: Float
+  company_id: Float
+  time: DateTime!
+  repeat: Boolean!
+  deleted_at: DateTime
+  is_deleted: Boolean!
+  is_archived: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  place: String
+}
+
+input UpdateReminderInput {
+  note_id: Float
+  account_id: Float
+  company_id: Float
+  time: DateTime
+  repeat: Boolean
+  deleted_at: DateTime
+  is_deleted: Boolean
+  is_archived: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  place: String
+  id: Float!
+}
+
+input CreateDeadlineInput {
+  note_id: Float
+  collection_id: Float
+  category_id: Float
+  label_id: Float
+  tag_id: Float
+  time: DateTime!
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateDeadlineInput {
+  note_id: Float
+  collection_id: Float
+  category_id: Float
+  label_id: Float
+  tag_id: Float
+  time: DateTime
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  id: Float!
+}
+
+input CreateDeadlineFighterInput {
+  deadline_id: Float
+  account_id: Float
+  client_id: Float
+  company_id: Float
+  is_deleted: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+input UpdateDeadlineFighterInput {
+  deadline_id: Float
+  account_id: Float
+  client_id: Float
+  company_id: Float
+  is_deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
   id: Float!
 }

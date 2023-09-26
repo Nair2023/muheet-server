@@ -6,11 +6,18 @@ export const CurrentDevice = createParamDecorator(
   (_data: unknown, context: ExecutionContext) => {
     if (context.getType() === 'http') {
       const request = context.switchToHttp().getRequest();
-      if (!request.headers.device_id) {
+
+      if (!request.headers.device_id && !request.headers['x-device']) {
         throw new Error(ErrorsEnum.device_not_found);
       }
 
-      return request.headers.device_id;
+      let result = request.headers?.device_id;
+
+      if (request.headers['x-device']) {
+        result = request.headers['x-device'];
+      }
+
+      return Number(result);
     }
 
     const ctx = GqlExecutionContext.create(context);

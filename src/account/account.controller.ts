@@ -8,7 +8,7 @@ import {
   Post,
   Query,
   Res,
-  UseGuards,
+  // UseGuards,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -23,12 +23,12 @@ import { CreateAccountInput } from './dto/create-account.input';
 import { UpdateAccountInput } from './dto/update-account.input';
 import { Account } from './entities/account.entity';
 import { ApiHeaders } from 'src/utils/decorators/headers.decorator';
-import { CustomAuthGuard } from 'src/utils/guards/auth.guard';
+// import { CustomAuthGuard } from 'src/utils/guards/auth.guard';
 import { PrismaService } from 'src/prisma.service';
 import { CurrentDevice } from 'src/utils/decorators/device.decorator';
 
-@ApiHeaders({ withAuth: true })
-@UseGuards(CustomAuthGuard)
+@ApiHeaders({ withAuth: false })
+// @UseGuards(CustomAuthGuard)
 @ApiTags('Account')
 @Controller('account')
 export class AccountController {
